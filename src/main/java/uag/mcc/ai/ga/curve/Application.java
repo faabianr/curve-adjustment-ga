@@ -18,6 +18,7 @@ public class Application {
                 17 * Chromosome.WEIGHT,
                 35 * Chromosome.WEIGHT
         );
+
         chartService.displayChart(c);
 
 
