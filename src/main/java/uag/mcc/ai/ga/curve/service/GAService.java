@@ -33,8 +33,19 @@ public class GAService {
     }
 
     public void startSimulation() {
-        chartService.displayChart(referenceChromosome);
         createInitialGeneration();
+        chartService.displayChart(referenceChromosome, currentGeneration.getBestChromosome());
+
+        sleep();
+        chartService.displayChart(referenceChromosome, referenceChromosome);
+    }
+
+    private void sleep() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            log.error("error in thread sleep", e);
+        }
     }
 
     private void createInitialGeneration() {
