@@ -43,20 +43,11 @@ public class Chromosome {
 
     public void calculateAptitude(Curve referenceCurve) {
         for (int i = 0; i < TOTAL_CURVE_POINTS; i++) {
-            double x1 = referenceCurve.getXValues().get(i);
             double y1 = referenceCurve.getYValues().get(i);
-
-            double x2 = curve.getXValues().get(i);
             double y2 = curve.getYValues().get(i);
 
-            aptitude += Math.abs(calculateDistanceBetweenPoints(x1, y1, x2, y2));
+            aptitude += Math.abs(y1 - y2);
         }
-    }
-
-    private double calculateDistanceBetweenPoints(double x1, double y1, double x2, double y2) {
-        double x = Math.abs(x2 - x1);
-        double y = Math.abs(y2 - y1);
-        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
     public void generateCurvePoints() {
