@@ -35,13 +35,17 @@ public class GAService {
         chartService.displayChart(referenceChromosome, currentGeneration.getBestChromosome(), generationCount);
 
         sleep();
-        // TODO test
-        chartService.displayChart(referenceChromosome, referenceChromosome, generationCount + 1);
+        createInitialGeneration();
+        chartService.displayChart(referenceChromosome, currentGeneration.getBestChromosome(), generationCount + 1);
+
+        sleep();
+        createInitialGeneration();
+        chartService.displayChart(referenceChromosome, currentGeneration.getBestChromosome(), generationCount + 1);
     }
 
     private void sleep() {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             log.error("error in thread sleep", e);
         }
