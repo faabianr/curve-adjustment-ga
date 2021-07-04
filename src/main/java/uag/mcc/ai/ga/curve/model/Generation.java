@@ -9,7 +9,6 @@ import java.util.Comparator;
 public class Generation {
 
     private Chromosome[] chromosomes;
-    private Chromosome bestChromosome;
 
     public void setChromosomes(Chromosome[] chromosomes) {
         this.chromosomes = chromosomes;

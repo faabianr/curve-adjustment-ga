@@ -8,9 +8,7 @@ import uag.mcc.ai.ga.curve.utils.RandomizeUtils;
 @Slf4j
 public class GAService {
 
-    private static final int TOTAL_GENERATIONS = 100;
     private static final int TOTAL_CHROMOSOMES_PER_GENERATION = 100;
-    private static final int TOURNAMENT_PARTICIPANTS_NUMBER = 5;
 
     private final ChartService chartService;
     private final Chromosome referenceChromosome;
@@ -34,10 +32,11 @@ public class GAService {
 
     public void startSimulation() {
         createInitialGeneration();
-        chartService.displayChart(referenceChromosome, currentGeneration.getBestChromosome());
+        chartService.displayChart(referenceChromosome, currentGeneration.getBestChromosome(), generationCount);
 
         sleep();
-        chartService.displayChart(referenceChromosome, referenceChromosome);
+        // TODO test
+        chartService.displayChart(referenceChromosome, referenceChromosome, generationCount + 1);
     }
 
     private void sleep() {
