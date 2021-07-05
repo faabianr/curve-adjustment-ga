@@ -1,5 +1,6 @@
 package uag.mcc.ai.ga.curve.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
@@ -13,7 +14,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.*;
 
-
+@Slf4j
 public class ChartService {
 
     private static final String X = "x";
@@ -55,7 +56,7 @@ public class ChartService {
         }
     }
 
-    public void displayChart(Chromosome referenceChromosome, Chromosome approximationChromosome, int generationNumber) {
+    public void displayCharts(Chromosome referenceChromosome, Chromosome approximationChromosome, int generationNumber) {
         aptitudeChartValues.get(X).add((double) generationNumber);
         aptitudeChartValues.get(Y).add(approximationChromosome.getAptitude());
         updateAptitudeChart(approximationChromosome);

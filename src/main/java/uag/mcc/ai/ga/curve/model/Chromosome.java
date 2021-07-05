@@ -10,27 +10,90 @@ public class Chromosome {
     public static final int WEIGHT = 5;
     public static final int TOTAL_CURVE_POINTS = 1000;
 
-    private final int a;
-    private final int b;
-    private final int c;
-    private final int d;
-    private final int e;
-    private final int f;
-    private final int g;
+    private static final int TOTAL_GENES = 7;
+
+    private static final int A = 0;
+    private static final int B = 1;
+    private static final int C = 2;
+    private static final int D = 3;
+    private static final int E = 4;
+    private static final int F = 5;
+    private static final int G = 6;
+
+    private final int[] genes;
+
     @ToString.Exclude
     private Curve curve;
     private double aptitude;
 
     public Chromosome(int a, int b, int c, int d, int e, int f, int g) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.d = d;
-        this.e = e;
-        this.f = f;
-        this.g = g;
+        genes = new int[TOTAL_GENES];
+
+        this.setA(a);
+        this.setB(b);
+        this.setC(c);
+        this.setD(d);
+        this.setE(e);
+        this.setF(f);
+        this.setG(g);
 
         generateCurvePoints();
+    }
+
+    public void setA(int a) {
+        this.genes[A] = a;
+    }
+
+    public void setB(int b) {
+        this.genes[B] = b;
+    }
+
+    public void setC(int c) {
+        this.genes[C] = c;
+    }
+
+    public void setD(int d) {
+        this.genes[D] = d;
+    }
+
+    public void setE(int e) {
+        this.genes[E] = e;
+    }
+
+    public void setF(int f) {
+        this.genes[F] = f;
+    }
+
+    public void setG(int g) {
+        this.genes[G] = g;
+    }
+
+    public int getA() {
+        return this.genes[A];
+    }
+
+    public int getB() {
+        return this.genes[B];
+    }
+
+    public int getC() {
+        return this.genes[C];
+    }
+
+    public int getD() {
+        return this.genes[D];
+    }
+
+    public int getE() {
+        return this.genes[E];
+    }
+
+    public int getF() {
+        return this.genes[F];
+    }
+
+    public int getG() {
+        return this.genes[G];
     }
 
     public Curve getCurve() {
@@ -67,13 +130,13 @@ public class Chromosome {
 
     private double calculateY(int i) {
         double Xi = calculateX(i);
-        int A = applyWeight(a);
-        int B = applyWeight(b);
-        int C = applyWeight(c);
-        int D = applyWeight(d);
-        int E = applyWeight(e);
-        int F = applyWeight(f);
-        int G = applyWeight(g);
+        int A = applyWeight(getA());
+        int B = applyWeight(getB());
+        int C = applyWeight(getC());
+        int D = applyWeight(getD());
+        int E = applyWeight(getE());
+        int F = applyWeight(getF());
+        int G = applyWeight(getG());
 
         return A * (B * Math.sin(Xi / C) + D * Math.cos(Xi / E)) + F * Xi - G;
     }
