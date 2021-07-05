@@ -91,7 +91,7 @@ public class ChartService {
             swingWrapper = new SwingWrapper<>(Arrays.asList(curveChart, aptitudeChart));
             swingWrapper.displayChartMatrix();
         } else {
-            updateBestAptituceChart(approximationChromosome, generationNumber);
+            updateBestAptitudeChart(approximationChromosome, generationNumber);
             updateCurveChart(
                     approximationChromosome.getCurve().getXValues(),
                     approximationChromosome.getCurve().getYValues(),
@@ -122,7 +122,7 @@ public class ChartService {
         swingWrapper.getXChartPanel(CURVE_CHART_INDEX).repaint();
     }
 
-    public void updateBestAptituceChart(Chromosome c, int generationNumber) {
+    public void updateBestAptitudeChart(Chromosome c, int generationNumber) {
         swingWrapper.getXChartPanel(APTITUDE_CHART_INDEX).getChart()
                 .updateXYSeries(
                         APTITUDE_CHART_SERIES_NAME, aptitudeChartValues.get(X), aptitudeChartValues.get(Y), null
