@@ -3,6 +3,7 @@ package uag.mcc.ai.ga.curve.service;
 import lombok.extern.slf4j.Slf4j;
 import uag.mcc.ai.ga.curve.model.Chromosome;
 import uag.mcc.ai.ga.curve.model.Generation;
+import uag.mcc.ai.ga.curve.utils.BitUtils;
 import uag.mcc.ai.ga.curve.utils.RandomizeUtils;
 
 import java.util.Collections;
@@ -77,9 +78,51 @@ public class GAService {
         setBestOfGeneration(currentGeneration);
     }
 
+    // TODO implement
     private Chromosome[] applyReproduction(Chromosome parent1, Chromosome parent2) {
-        // TODO implement
+
+
+        // 1. random number between 0 and 55
+        int pivotNumber = RandomizeUtils.randomNumber(56);
+
+        // 2. get gen index
+        int genIndex = pivotNumber / 8; // each gen has 8 bits
+
+        // 3. get offset and selected gen
+        int offset = pivotNumber - (genIndex * 8);
+        // TODO selected gen
+
+        // 4. do we need to split a number?
+        if (offset > 0) {
+            int[] childrenGenes = applyReproductionToGen(parent1.getGenByIndex(genIndex), parent2.getGenByIndex(genIndex), offset);
+
+        }
+
+        // 5. interchange (reproduction)
+
+
         return new Chromosome[2];
+    }
+
+
+    private int[] applyReproductionToGen(int p1Gen, int p2Gen, int offset) {
+        int[] partsOfParent1 = BitUtils.binarySplit(p1Gen, offset);
+        int[] partsOfParent2 = BitUtils.binarySplit(p2Gen, offset);
+
+        int pb1 = partsOfParent1[BitUtils.PB_INDEX];
+        int pa1 = partsOfParent1[BitUtils.PA_INDEX];
+
+        int pb2 = partsOfParent2[BitUtils.PB_INDEX];
+        int pa2 = partsOfParent2[BitUtils.PA_INDEX];
+
+        int child1 = pa1 | pb2;
+        int child2 = pa2 | pb1;
+
+        int[] children = new int[2];
+        children[0] = child1;
+        children[1] = child2;
+
+        return children;
     }
 
     private Chromosome executeTournamentOnCurrentGeneration() {

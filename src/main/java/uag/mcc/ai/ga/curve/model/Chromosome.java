@@ -10,7 +10,7 @@ public class Chromosome {
     public static final int WEIGHT = 5;
     public static final int TOTAL_CURVE_POINTS = 1000;
 
-    private static final int TOTAL_GENES = 7;
+    public static final int TOTAL_GENES = 7;
 
     private static final int A = 0;
     private static final int B = 1;
@@ -98,6 +98,10 @@ public class Chromosome {
 
     public Curve getCurve() {
         return curve;
+    }
+
+    public int getGenByIndex(int index) {
+        return genes[index];
     }
 
     public double getAptitude() {
