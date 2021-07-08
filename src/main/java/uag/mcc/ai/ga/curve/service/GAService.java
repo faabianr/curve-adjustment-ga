@@ -198,14 +198,14 @@ public class GAService {
             // calculating aptitude value using the curve of the reference chromosome
             chromosomes[i].calculateAptitude(referenceChromosome.getCurve());
 
-            log.info("[generation {} - chromosome {}] aptitude={}", generationCount, i, chromosomes[i].getAptitude());
+            log.debug("[generation {} - chromosome {}] aptitude={}", generationCount, i, chromosomes[i].getAptitude());
         }
 
         // adding the chromosomes to the generation
         currentGeneration = new Generation();
         currentGeneration.setChromosomes(chromosomes);
 
-        log.info("[generation {}] best chromosome: {}", generationCount, currentGeneration.getBestChromosome());
+        log.debug("[generation {}] best chromosome: {}", generationCount, currentGeneration.getBestChromosome());
     }
 
 }
