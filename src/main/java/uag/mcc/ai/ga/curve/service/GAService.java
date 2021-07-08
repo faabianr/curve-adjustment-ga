@@ -14,6 +14,7 @@ public class GAService {
     private static final int TOTAL_CHROMOSOMES_PER_GENERATION = 100;
     private static final int TOTAL_GENERATIONS = 100;
     private static final int TOTAL_PARTICIPANTS_PER_TOURNAMENT = 5;
+    private static final int MUTATION_PERCENTAGE = 3;
 
     private final ChartService chartService;
     private final Chromosome referenceChromosome;
@@ -73,11 +74,30 @@ public class GAService {
         log.debug("replacing parent generation with children");
         currentGeneration.setChromosomes(newGenerationChromosomes);
 
+        mutateGeneration(currentGeneration);
+
         for (Chromosome c : currentGeneration.getChromosomes()) {
             c.calculateAptitude(referenceChromosome.getCurve());
         }
 
         setBestOfGeneration(currentGeneration);
+    }
+
+    private void mutateGeneration(Generation generation) {
+
+        int totalAffectedElements = MUTATION_PERCENTAGE * 100 / TOTAL_CHROMOSOMES_PER_GENERATION;
+
+        for (int i = 0; i < totalAffectedElements; i++) {
+
+            int randomChromosomeIndex = RandomizeUtils.randomNumber(TOTAL_CHROMOSOMES_PER_GENERATION);
+            int randomGenIndex = RandomizeUtils.randomNumber(Chromosome.TOTAL_GENES);
+            Chromosome c = generation.getChromosomes()[randomChromosomeIndex];
+            int[] genes = c.getGenes();
+
+            genes[randomGenIndex] = BitUtils.randomBitsNegation(genes[randomGenIndex], totalAffectedElements);
+            c.setGenes(genes);
+        }
+
     }
 
     private Chromosome[] applyReproduction(Chromosome parent1, Chromosome parent2) {

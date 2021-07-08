@@ -20,16 +20,14 @@ public class Chromosome {
     private static final int F = 5;
     private static final int G = 6;
 
-    private final int[] genes;
+    private int[] genes;
 
     @ToString.Exclude
     private Curve curve;
     private double aptitude;
 
     public Chromosome(int[] genes) {
-        this.genes = genes;
-
-        generateCurvePoints();
+        this.setGenes(genes);
     }
 
     public Chromosome(int a, int b, int c, int d, int e, int f, int g) {
@@ -112,6 +110,16 @@ public class Chromosome {
 
     public double getAptitude() {
         return aptitude;
+    }
+
+    public void setGenes(int[] genes) {
+        this.genes = genes;
+
+        generateCurvePoints();
+    }
+
+    public int[] getGenes() {
+        return genes;
     }
 
     public void calculateAptitude(Curve referenceCurve) {
