@@ -175,7 +175,7 @@ public class GAService {
 
     private void sleep() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             log.error("error in thread sleep", e);
         }
