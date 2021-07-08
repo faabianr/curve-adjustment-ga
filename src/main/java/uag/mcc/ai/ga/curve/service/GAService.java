@@ -12,10 +12,10 @@ import java.util.*;
 public class GAService {
 
     private static final int TOTAL_CHROMOSOMES_PER_GENERATION = 100;
-    private static final int TOTAL_GENERATIONS = 100;
+    private static final int TOTAL_GENERATIONS = 200;
     private static final int TOTAL_PARTICIPANTS_PER_TOURNAMENT = 5;
-    private static final int MUTATION_PERCENTAGE = 3;
-    private static final boolean APPLY_ELITISM = true;
+    private static final int MUTATION_PERCENTAGE = 5;
+    private static final boolean APPLY_ELITISM = false;
 
     private final ChartService chartService;
     private final Chromosome referenceChromosome;
@@ -116,7 +116,7 @@ public class GAService {
             Chromosome c = chromosomes[randomChromosomeIndex];
             int[] genes = c.getGenes();
 
-            genes[randomGenIndex] = BitUtils.randomBitsNegation(genes[randomGenIndex], totalAffectedElements);
+            genes[randomGenIndex] = BitUtils.randomBitsNegation(genes[randomGenIndex], 1);
             c.setGenes(genes);
         }
 
