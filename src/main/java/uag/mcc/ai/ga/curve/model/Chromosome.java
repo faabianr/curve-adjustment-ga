@@ -26,6 +26,12 @@ public class Chromosome {
     private Curve curve;
     private double aptitude;
 
+    public Chromosome(int[] genes) {
+        this.genes = genes;
+
+        generateCurvePoints();
+    }
+
     public Chromosome(int a, int b, int c, int d, int e, int f, int g) {
         genes = new int[TOTAL_GENES];
 

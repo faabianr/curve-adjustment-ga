@@ -6,10 +6,7 @@ import uag.mcc.ai.ga.curve.model.Generation;
 import uag.mcc.ai.ga.curve.utils.BitUtils;
 import uag.mcc.ai.ga.curve.utils.RandomizeUtils;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 public class GAService {
@@ -75,33 +72,56 @@ public class GAService {
 
         log.debug("replacing parent generation with children");
         currentGeneration.setChromosomes(newGenerationChromosomes);
+
+        for (Chromosome c : currentGeneration.getChromosomes()) {
+            c.calculateAptitude(referenceChromosome.getCurve());
+        }
+
         setBestOfGeneration(currentGeneration);
     }
 
-    // TODO implement
     private Chromosome[] applyReproduction(Chromosome parent1, Chromosome parent2) {
 
-
-        // 1. random number between 0 and 55
+        // random number between 0 and 55
         int pivotNumber = RandomizeUtils.randomNumber(56);
 
-        // 2. get gen index
+        // get gen index
         int genIndex = pivotNumber / 8; // each gen has 8 bits
 
-        // 3. get offset and selected gen
+        // get offset and selected gen
         int offset = pivotNumber - (genIndex * 8);
-        // TODO selected gen
 
-        // 4. do we need to split a number?
+        int selectedGenP1 = parent1.getGenByIndex(genIndex);
+        int selectedGenP2 = parent2.getGenByIndex(genIndex);
+
+        // do we need to split a number?
         if (offset > 0) {
-            int[] childrenGenes = applyReproductionToGen(parent1.getGenByIndex(genIndex), parent2.getGenByIndex(genIndex), offset);
-
+            int[] childrenGenes = applyReproductionToGen(selectedGenP1, selectedGenP2, offset);
+            selectedGenP1 = childrenGenes[0];
+            selectedGenP2 = childrenGenes[1];
         }
 
-        // 5. interchange (reproduction)
+        int[] child1Genes = new int[Chromosome.TOTAL_GENES];
+        int[] child2Genes = new int[Chromosome.TOTAL_GENES];
 
+        // interchange (reproduction)
+        for (int i = 0; i < Chromosome.TOTAL_GENES; i++) {
+            if (i < genIndex) {
+                child1Genes[i] = parent1.getGenByIndex(i);
+                child2Genes[i] = parent2.getGenByIndex(i);
+            } else if (i > genIndex) {
+                child1Genes[i] = parent2.getGenByIndex(i);
+                child2Genes[i] = parent1.getGenByIndex(i);
+            } else {
+                child1Genes[i] = selectedGenP2;
+                child2Genes[i] = selectedGenP1;
+            }
+        }
 
-        return new Chromosome[2];
+        Chromosome child1 = new Chromosome(child1Genes);
+        Chromosome child2 = new Chromosome(child2Genes);
+
+        return new Chromosome[]{child1, child2};
     }
 
 
