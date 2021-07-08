@@ -15,6 +15,7 @@ public class GAService {
     private static final int TOTAL_GENERATIONS = 100;
     private static final int TOTAL_PARTICIPANTS_PER_TOURNAMENT = 5;
     private static final int MUTATION_PERCENTAGE = 3;
+    private static final boolean APPLY_ELITISM = true;
 
     private final ChartService chartService;
     private final Chromosome referenceChromosome;
@@ -72,18 +73,39 @@ public class GAService {
         }
 
         log.debug("replacing parent generation with children");
-        currentGeneration.setChromosomes(newGenerationChromosomes);
 
-        mutateGeneration(currentGeneration);
-
-        for (Chromosome c : currentGeneration.getChromosomes()) {
+        for (Chromosome c : newGenerationChromosomes) {
             c.calculateAptitude(referenceChromosome.getCurve());
+        }
+
+        mutateChromosomes(newGenerationChromosomes);
+
+        if (APPLY_ELITISM) {
+            currentGeneration.setChromosomes(selectBestChromosomesUsingElitism(newGenerationChromosomes));
+        } else {
+            currentGeneration.setChromosomes(newGenerationChromosomes);
         }
 
         setBestOfGeneration(currentGeneration);
     }
 
-    private void mutateGeneration(Generation generation) {
+    private Chromosome[] selectBestChromosomesUsingElitism(Chromosome[] newGenerationChromosomes) {
+        List<Chromosome> allChromosomes = new ArrayList<>();
+        allChromosomes.addAll(Arrays.asList(newGenerationChromosomes));
+        allChromosomes.addAll(Arrays.asList(currentGeneration.getChromosomes()));
+
+        allChromosomes.sort(Comparator.comparing(Chromosome::getAptitude));
+
+        Chromosome[] bestChromosomes = new Chromosome[TOTAL_CHROMOSOMES_PER_GENERATION];
+
+        for (int i = 0; i < TOTAL_CHROMOSOMES_PER_GENERATION; i++) {
+            bestChromosomes[i] = allChromosomes.get(i);
+        }
+
+        return bestChromosomes;
+    }
+
+    private void mutateChromosomes(Chromosome[] chromosomes) {
 
         int totalAffectedElements = MUTATION_PERCENTAGE * 100 / TOTAL_CHROMOSOMES_PER_GENERATION;
 
@@ -91,7 +113,7 @@ public class GAService {
 
             int randomChromosomeIndex = RandomizeUtils.randomNumber(TOTAL_CHROMOSOMES_PER_GENERATION);
             int randomGenIndex = RandomizeUtils.randomNumber(Chromosome.TOTAL_GENES);
-            Chromosome c = generation.getChromosomes()[randomChromosomeIndex];
+            Chromosome c = chromosomes[randomChromosomeIndex];
             int[] genes = c.getGenes();
 
             genes[randomGenIndex] = BitUtils.randomBitsNegation(genes[randomGenIndex], totalAffectedElements);
