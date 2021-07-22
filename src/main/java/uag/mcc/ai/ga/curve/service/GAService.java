@@ -14,7 +14,7 @@ public class GAService {
     private static final int TOTAL_CHROMOSOMES_PER_GENERATION = 100;
     private static final int TOTAL_GENERATIONS = 200;
     private static final int TOTAL_PARTICIPANTS_PER_TOURNAMENT = 5;
-    private static final int MUTATION_PERCENTAGE = 5;
+    private static final int MUTATION_PERCENTAGE = 10;
     private static final boolean APPLY_ELITISM = false;
 
     private final ChartService chartService;
@@ -217,7 +217,7 @@ public class GAService {
 
     private void sleep() {
         try {
-            Thread.sleep(100);
+            Thread.sleep(50);
         } catch (InterruptedException e) {
             log.error("error in thread sleep", e);
         }
